@@ -15,16 +15,12 @@ var getPics = function (req, res, next) {
   var options = {
     method: 'GET',
     url: 'https://api.flickr.com/services/rest/',
-    qs:
-      {
-        method: 'flickr.photos.search',
-        api_key: '154aed70282e29c9a05e3e7785a17a57',
-        tags: 'comics',
-        format: 'json',
-        nojsoncallback: '1',
-        auth_token: '72157695595912864-d4147975851767d4',
-        api_sig: 'c07da0ce589d13fdff6cd3d5172f3471'
-      },
+    qs: 
+     { method: 'flickr.photos.getRecent',
+       api_key: '74e129101391605385516cd7ef1ad85c',
+       format: 'json',
+       nojsoncallback: '1',
+       api_sig: '15db354672f19943657a409926f2b9ac' },
     json: true
 
   };
@@ -33,7 +29,7 @@ var getPics = function (req, res, next) {
     if (error) throw new Error(error);
 
     console.log(JSON.stringify(body, undefined, 2));
-    res.locals.rawData = JSON.stringify(body)
+    res.locals.rawData = body
     next();
 
   });
@@ -41,8 +37,8 @@ var getPics = function (req, res, next) {
 
 }
 
-app.get('/api/hello', getPics, (req, res, next) => {
-  res.json({ express: res.locals.rawData });
+app.get('/api/pics', getPics, (req, res, next) => {
+  res.send({ data: res.locals.rawData });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

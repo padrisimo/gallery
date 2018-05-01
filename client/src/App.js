@@ -1,40 +1,33 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
-
-import './App.css';
+import { connect } from 'react-redux'
+import { fetchPics } from './actions';
 
 class App extends Component {
-  state = {
-    response: ''
-  };
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+    this.props.fetchPics();
   }
 
-  callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  };
-
   render() {
+    const { pics, isfetched } = this.props;
+    if (!isfetched) {
+      return <div>...</div>;
+    }
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+      <div>
+        <header>
+          <h1>Gallery</h1>
         </header>
-        <p className="App-intro">{this.state.response}</p>
+        <p></p>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  pics: state.pics.pics,
+  isfetched: state.pics.isfetched
+})
+
+
+export default connect(mapStateToProps, { fetchPics })(App);
