@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Gallery from 'react-grid-gallery';
+import Loader from './Loader';
+
 
 
 export default class PhotoList extends Component {
@@ -9,17 +11,17 @@ export default class PhotoList extends Component {
   }
 
   componentDidMount() {
-     this.setState({ imageArr: this.imageRender() })
+    this.setState({ imageArr: this.imageRender() })
   }
 
   imageRender = () => {
     return (
       this.props.data.photos.photo.filter((rawPhoto) => !!rawPhoto.url_l).map(photo => ({
-        src:  photo.url_l,
+        src: photo.url_l,
         thumbnail: photo.url_n,
-        thumbnailWidth: photo.width_n ? Number(photo.width_n): 320,
-        thumbnailHeight: photo.height_n ? Number(photo.height_n): 240,
-        tags: [{ value: photo.ownername, title: photo.datetaken}],
+        thumbnailWidth: photo.width_n ? Number(photo.width_n) : 320,
+        thumbnailHeight: photo.height_n ? Number(photo.height_n) : 240,
+        tags: [{ value: photo.ownername, title: photo.datetaken }],
         caption: photo.title
       })
       )
@@ -53,24 +55,27 @@ export default class PhotoList extends Component {
         return i;
       });
 
-    if (imageArr.length < 3 ) {
-      return <div>...</div>;
+    if (imageArr.length < 3) {
+      return <Loader />;
     }
     return (
-      <div style={{
-        display: "block",
-        minHeight: "1px",
-        width: "100%",
-        border: "1px solid #ddd",
-        overflow: "auto"
-      }}>
+      <div style={galleryContainer}>
         <Gallery
           images={images}
-          enableImageSelection={false} />
+          enableImageSelection={false}
+          style={{ border: 0 }} />
       </div>
     )
   }
 }
+
+const galleryContainer = {
+  display: "block",
+  minHeight: "1px",
+  width: "100%",
+  overflow: "auto",
+  marginTop: "5em"
+};
 
 const captionStyle = {
   backgroundColor: "rgba(0, 0, 0, 0.8)",

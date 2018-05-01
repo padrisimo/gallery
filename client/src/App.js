@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchPics } from './actions';
 import PhotoList from './components/PhotoList';
+import Header from './components/Header';
+import Loader from './components/Loader';
+
+import { TITLE } from './config';
 
 
 class App extends Component {
@@ -13,14 +17,12 @@ class App extends Component {
   render() {
     const { pics, isfetched } = this.props;
     if (!isfetched) {
-      return <div>...</div>;
+      return <Loader /> ;
     }
     return (
       <div>
-        <header>
-          <h1>Gallery</h1>
-        </header>
-        <PhotoList data={pics}/>
+        <Header title={TITLE} />
+        <PhotoList data={pics} />
         <p></p>
       </div>
     );

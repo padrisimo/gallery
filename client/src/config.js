@@ -1,8 +1,9 @@
-export const customColor = "#0a456f";
+export const customColor = "#333";
+export const TITLE = "Random Pics Gallery";
 export const injectGlobalConfig = `
 
   body {
-    background: #333;
+    background: ${customColor};
     color: #fff;
     font-family: sans-serif;
   }
