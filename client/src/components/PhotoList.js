@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Gallery from 'react-grid-gallery';
 
+
 export default class PhotoList extends Component {
   constructor(props) {
     super(props);
@@ -8,29 +9,64 @@ export default class PhotoList extends Component {
   }
 
   componentDidMount() {
-    this.setState({ imageArr: this.imageRender()}) 
+     this.setState({ imageArr: this.imageRender() })
   }
 
   imageRender = () => {
     return (
-      this.props.data.photos.photo.map(photo => ({
-        src: photo.url_l,
+      this.props.data.photos.photo.filter((rawPhoto) => !!rawPhoto.url_l).map(photo => ({
+        src:  photo.url_l,
         thumbnail: photo.url_n,
-        thumbnailWidth: Number(photo.width_n),
-        thumbnailHeight: photo.height_n,
+        thumbnailWidth: photo.width_n ? Number(photo.width_n): 320,
+        thumbnailHeight: photo.height_n ? Number(photo.height_n): 240,
+        tags: [{ value: photo.ownername, title: photo.datetaken}],
         caption: photo.title
       })
       )
     )
   };
+
+  setCustomTags(i) {
+    return (
+      i.tags.map((t) => {
+        return (<div
+          key={t.value}
+          style={customTagStyle}>
+          {t.title}
+        </div>);
+      })
+    );
+  }
+
   render() {
-    const {imageArr} = this.state;
-    if (!imageArr) {
+
+    const { imageArr } = this.state;
+
+    const images =
+      imageArr.map((i) => {
+        i.customOverlay = (
+          <div style={captionStyle}>
+            <div>{i.caption}</div>
+            {i.hasOwnProperty('tags') &&
+              this.setCustomTags(i)}
+          </div>);
+        return i;
+      });
+
+    if (imageArr.length < 3 ) {
       return <div>...</div>;
     }
     return (
-      <div>
-        <Gallery images={imageArr} />
+      <div style={{
+        display: "block",
+        minHeight: "1px",
+        width: "100%",
+        border: "1px solid #ddd",
+        overflow: "auto"
+      }}>
+        <Gallery
+          images={images}
+          enableImageSelection={false} />
       </div>
     )
   }
@@ -62,3 +98,4 @@ const customTagStyle = {
   verticalAlign: "baseline",
   margin: "2px"
 };
+
