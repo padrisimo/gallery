@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchPics } from './actions';
-import PhotoItem from './components/PhotoItem';
+import PhotoList from './components/PhotoList';
+
 
 class App extends Component {
 
@@ -19,7 +20,7 @@ class App extends Component {
         <header>
           <h1>Gallery</h1>
         </header>
-        { pics.photos.photo.map( photo => <PhotoItem key={photo.id} data={photo} />) }
+        <PhotoList data={pics}/>
         <p></p>
       </div>
     );
