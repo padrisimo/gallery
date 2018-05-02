@@ -18,18 +18,28 @@ const Wrapper = styled.div`
 `;
 
 const ButtonPage = styled.span`
-  padding-right: 1.4em;
   cursor: pointer;
+  padding: 1em;
+`;
+const Buttonblock = styled.span`
+  padding-right: .5em;
 `;
 
 class Header extends Component {
+
   render() {
-    const {title, page } = this.props;
+    const { title, page } = this.props;
+    const next = page + 1;
+    const prev = page - 1;
     return (
       <Wrapper>
-      <h1>{title} pag. {page}</h1>
-      <ButtonPage onClick={() => this.props.fetchPics(2)}>next!</ButtonPage>
-    </Wrapper>
+        <h1>{title} pag. {page}</h1>
+        <Buttonblock>
+          <ButtonPage onClick={() => this.props.fetchPics(prev)}>prev</ButtonPage>
+          {" | "}
+          <ButtonPage onClick={() => this.props.fetchPics(next)}>next</ButtonPage>
+        </Buttonblock>
+      </Wrapper>
     )
   }
 }
