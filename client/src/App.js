@@ -11,18 +11,20 @@ import { TITLE } from './config';
 class App extends Component {
 
   componentDidMount() {
-    this.props.fetchPics(3);
+    if (!this.props.isfetched) {
+      this.props.fetchPics();
+    }
   }
 
   render() {
     const { pics, isfetched } = this.props;
     if (!isfetched) {
-      return <Loader /> ;
+      return <Loader />;
     }
     return (
       <div>
-        <Header title={TITLE} />
-        <PhotoList data={pics} />
+        <Header title={TITLE} page={pics.photos.page}/>
+        <PhotoList data={pics} page={pics.photos.page} />
         <p></p>
       </div>
     );

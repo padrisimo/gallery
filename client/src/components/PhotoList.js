@@ -11,12 +11,18 @@ export default class PhotoList extends Component {
   }
 
   componentDidMount() {
-    this.setState({ imageArr: this.imageRender() })
+    this.setState({ imageArr: this.imageRender(this.props) })
   }
 
-  imageRender = () => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.page !== this.props.page) { 
+      this.setState({ imageArr: this.imageRender(nextProps) })
+    }
+  }
+
+  imageRender = (props) => {
     return (
-      this.props.data.photos.photo.filter((rawPhoto) => !!rawPhoto.url_l).map(photo => ({
+      props.data.photos.photo.filter((rawPhoto) => !!rawPhoto.url_l).map(photo => ({
         src: photo.url_l,
         thumbnail: photo.url_n,
         thumbnailWidth: photo.width_n ? Number(photo.width_n) : 320,

@@ -24,11 +24,11 @@ const ButtonPage = styled.span`
 
 class Header extends Component {
   render() {
-    const {title } = this.props;
+    const {title, page } = this.props;
     return (
       <Wrapper>
-      <h1>{title}</h1>
-      <ButtonPage onClick={() => this.props.fetchPics(4)}>next!</ButtonPage>
+      <h1>{title} pag. {page}</h1>
+      <ButtonPage onClick={() => this.props.fetchPics(2)}>next!</ButtonPage>
     </Wrapper>
     )
   }
