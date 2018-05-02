@@ -11,7 +11,7 @@ import { TITLE } from './config';
 class App extends Component {
 
   componentDidMount() {
-    this.props.fetchPics();
+    this.props.fetchPics(3);
   }
 
   render() {
